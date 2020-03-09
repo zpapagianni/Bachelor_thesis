@@ -30,12 +30,6 @@ for k=1:numFiles
 %     bef=temp.*uint8(seg_mask);
     seg_mask = imfill(seg_mask, 'holes'); % Optional.  Delete for speed
     seg_mask = bwareafilt(seg_mask, 1); % Optional, if there is noise in the dark left half.   
-%     if strcmp(side,'BR')&& j==2
-%         seg_mask = I <limit_edge;
-%          seg_mask = imfill(seg_mask, 'holes'); % Optional.  Delete for speed
-%          seg_mask = bwareafilt(seg_mask, 1);
-% %     seg_mask = temp > limit_edge;
-%     end
     roi{:,:,k}=temp.*uint8(seg_mask);
 %     figure
 %     imshowpair(bef,roi{:,:,k},'montage') 
@@ -49,12 +43,6 @@ for k=1:numFiles
 %     BW = edge(new_temp,'log');
     BW = edge(new_temp,'Sobel');
     [counts,~] = imhist(BW);
-%     if k==18|k==40|k==2 %FR
-%     if k==44|k==49|k==42   %BL
-% %        imshow(roi{:,:,1})
-%        figure
-%        imshowpair(roi{:,:,k},BW,'montage') 
-%     end
     stat_values(k,4)=counts(2);
 end
 % figure 
@@ -79,6 +67,7 @@ st_d=transpose(st_d);
 %     Bl_wh_2=mat2gray(Bl_wh_2);
 % figure
 % imshowpair(Bl_wh_1,Bl_wh_2,'montage') 
+
 %% Gradients
 
 Gmag=cell(1,1,numFiles);
