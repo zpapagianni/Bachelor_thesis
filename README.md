@@ -3,25 +3,23 @@
 The method proposed uses a machine vision system which involves the detection of surface defects in aluminum parts using image processing techniques in combination with an alternative method of edge detection. In addition, an advanced learning process has been developed to clearly identify and classify surface defects, based on feedforward neural networks used for pattern recognition.
 
 ## Table of contents
-* [General info](#general-info)
+
 * [Technologies](#technologies)
-* [How it works](#how it works)
-
-## General info
-For the development of the algorithm, we designed in the laboratory a special base in order to better position the parts and decrease the influence of the environmental light. We also designed a lighting panel for their illumination which consists of LEDs placed uniformly, creating a diffused illumination of the parts. The picture of the examined part is captured by a phone camera.
-
-![Equipment](/Images-Bach_thesis/Picture 1.png)
-
-This particular algorithm was created for this specific item. However with some changes it can be used for a variety of items. 
-There is 2 versions one for the final project and one live demo.
-Due to the low resolution of the camera, the size and the position of the defects, we chose to capture 6 pictures in total, 3 on each side
+* [General info](#general-info)
 
 ## Technologies
 Project is created with:
 * Mathworks Matlab
-	
-## How it works
 
+## General info
+For the development of the algorithm, we designed in the laboratory a special base in order to better position the parts and decrease the influence of the environmental light. We also designed a lighting panel for their illumination which consists of LEDs placed uniformly, creating a diffused illumination of the parts. The picture of the examined part is captured by a phone camera.
+
+![Equipment] (/Images-Bach_thesis/Picture 1.png)
+
+This particular algorithm was created for this specific item. However with some changes it can be used for a variety of items. 
+There is 2 versions one for the final project and one live demo.
+Due to the low resolution of the camera, the size and the position of the defects, we chose to capture 6 pictures in total, 3 on each side
+	
 The input in the algorithm is added through Input.m and then the user only need to run the Run.m.
 In Run.m different processes are taking place.
 
