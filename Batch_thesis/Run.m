@@ -2,26 +2,24 @@
 clc
 close all
 clear all
-% clearvars -EXCEPT numFiles
 
-numFiles=52;
+
+numFiles=52; %Number of samples
 
 target_names=[1:1:numFiles];
 
-%% Target 
-% clear all
+%% Target
+% 1 is for defective, zero for non defectives
+% Those are entered by the user after the inspection of the parts. 
+
 target_FR=zeros(2,numFiles);
-% target_FR(1,16:numFiles)=1-target_FR(1,16:numFiles);
-% target_FR(1,1:15)=
+
 target_FR(1,16:numFiles)=[1 1 1 1 1 1 1 0 1 1 0 1 0 1 1 ... %%31
     1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 ...
     1 1 1 1 1 0 1];
 target_FR(2,:)=ones(1,numFiles)-target_FR(1,:);
 %%
 target_FL=zeros(2,numFiles);
-% target_FL(1,16:numFiles)=1-target_FL(1,16:numFiles);
-% 0,0,0,0];
-%     1,1,1,1,1,1,0,0,0,0];
 target_FL(1,16:numFiles)=[1 1 1 0 1 1 0 1 0 1 0 1 1 0 0 ...
     1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 ...
     1 0 1 0 1 0 1];
@@ -41,9 +39,6 @@ target_BR=zeros(2,numFiles);
 target_BR(1,16:numFiles)=[1 1 0 1 0 1 1 1 1 0 1 1 1 1 1 ...
     0 0 1 1 1 1 1 1 1 1 1 0 1 0 1 ...
     1 1 1 1 1 1 0];
-% target_FR(1,1:15)=
-% [0,1,0,1,0,0,0,1,0,0];
-% 0,0,0,0];
 target_BR(2,:)=ones(1,numFiles)-target_BR(1,:);
 
 %%
@@ -52,8 +47,7 @@ target_BL=zeros(2,numFiles);
 % target_BL(1,16:numFiles)=[0 1 1 1 1 0 0 1 0 1 1 0 0 0 0 ...
 %     0 1 0 1 0 0 1 1 0 1 1 1 1 1 0 ...
 %     1 0 1 1 0 1 0];
-% 0,0,0,0];
-%     1,1,1,1,1,1,0,0,0,0];
+
 target_BL(2,:)=ones(1,numFiles)-target_BL(1,:);
 
 %%
@@ -67,23 +61,7 @@ target_BC(1,16:numFiles)=1-target_BC(1,16:numFiles);
 target_BC(2,:)=ones(1,numFiles)-target_BC(1,:);
 target_names=[1:1:numFiles];
 
-% target_FR=zeros(2,numFiles);
-% target_FR(1,:)=[0,1,0,1,0,0,0,1,0,0];
-% target_FR(2,:)=ones(1,numFiles)-target_FR(1,:);
-% 
-% target_FL=zeros(2,numFiles);
-% target_FL(1,:)=[0,1,1,0,1,1,0,1,1,0];
-% target_FL(2,:)=ones(1,numFiles)-target_FL(1,:);
-% 
-% target_BR=zeros(2,numFiles);
-% target_BR(1,:)=[0,1,0,0,1,0,0,0,1,0];
-% target_BR(2,:)=ones(1,numFiles)-target_BR(1,:);
-% 
-% target_BL=zeros(2,numFiles);
-% % target_BL(1,:)=[0,0,0,1,1,1,0,1,0,0];
-% target_BL(1,:)=[0,0,0,0,1,0,0,0,1,0];
-% 
-% target_BL(2,:)=ones(1,numFiles)-target_BL(1,:);
+%% Preparation of target matrix for every sample
 
 for i=1:numFiles
     if target_FR(1,i)==1
@@ -108,19 +86,6 @@ for i=1:numFiles
     end
 end
 
-% for i=1:numFiles
-%     if target_BC(1,i)==1 | target_FN(1,i)==1
-%         sum_1(i)=1;
-%     elseif target_BL(1,i)==1|target_FR(1,i)==1 
-%         sum_2(i)=1;
-%     elseif target_BR(1,i)==1 | target_FL(1,i)==1 
-%         sum_3(i)=1;
-%     else
-%         sum_1(i)=0;
-%         sum_2(i)=0;
-%         sum_3(i)=0;
-%     end
-% end
 
 for i=1:numFiles
     if target_BR(1,i)==1 | target_FL(1,i)==1 |target_BL(1,i)==1|target_FR(1,i)==1
@@ -129,6 +94,8 @@ for i=1:numFiles
         sum_1(i)=0;
     end
 end
+
+%%Processing of front part
 
 [total_sum_Fr,total_sum_Gr_Fr,total_FL,total_FR,total_FN,total_Gr_FL,total_Gr_FR,total_Gr_FN] = Front_part(sum_target_Fr,numFiles);
 [good_parts_Fr,good_parts_names_Fr,good_parts_Gr_Fr,bad_parts_Fr,bad_parts_names_Fr,bad_parts_Gr_Fr] =Results_Processing(total_sum_Fr,total_sum_Gr_Fr,numFiles,sum_target_Fr,target_names);
@@ -140,7 +107,8 @@ save('total_Gr_FL.mat','total_Gr_FL')
 save('total_FN.mat','total_FN')
 save('total_Gr_FN.mat','total_Gr_FN')
 cd 'C:\Users\Zoe Papagianni\Documents\MATLAB\Bachelor Thesis'
-%%
+
+%% Processing of back part
 [total_sum_Bc,total_sum_Gr_Bc,total_BL,total_BR,total_BC,total_Gr_BL,total_Gr_BR,total_Gr_BC] = Back_part(sum_target_Bc,numFiles);
 [good_parts_Bc,good_parts_names_Bc,good_parts_Gr_Bc,bad_parts_Bc,bad_parts_names_Bc,bad_parts_Gr_Bc]=Results_Processing(total_sum_Bc,total_sum_Gr_Bc,numFiles,sum_target_Fr,target_names);
 cd 'C:\Users\Zoe Papagianni\Documents\MATLAB\Bachelor Thesis\Statistics'
@@ -155,6 +123,9 @@ close all
 %%
 
 clearvars sum_good sum_good_Gr good_names sum_bad sum_bad_Gr bad_names
+
+%% Trials for NN
+
 % total_1=total_FN+total_BC;
 % total_1=total_FR+total_BL+total_FR+total_BL;
 % total_2=total_FR+total_BL;
@@ -175,7 +146,6 @@ clearvars sum_good sum_good_Gr good_names sum_bad sum_bad_Gr bad_names
 % [testPerformance] =Neural_net_image(input_2',sum_1,nhn) 
 % input_3=[total_1(:,1) total_1_Gr(:,1) total_1(:,2) total_1(:,3) total_1(:,4) total_1(:,5)];
 % [testPerformance] =Neural_net_image(input_3',sum_1,nhn) 
-
 
 
 total=total_sum_Fr+total_sum_Bc;
@@ -243,16 +213,17 @@ numFiles=52;
 close all
 nhn=30;
 sum_target(2,:)=ones(1,numFiles)-sum_target(1,:);
- input_1= (((total(:,1).^2)+(total(:,5).^2))./(total_Gr(:,1))+total_Gr(:,2).^2)';
+input_1= (((total(:,1).^2)+(total(:,5).^2))./(total_Gr(:,1))+total_Gr(:,2).^2)';
 % % % input_1=(((total_Gr(:,1))./(total(:,1).^2))+((total(:,2))).*total(:,4))';
 % input_1=(((total_Gr(:,1))./(total(:,1).^2))+((total(:,2))).*total(:,4))';
-% [testPerformance] =Neural_net_image(input_1,sum_target,nhn)
+[testPerformance] =Neural_net_image(input_1,sum_target,nhn)
 
 input_2=[total(:,1) total_Gr(:,1) total(:,2) total(:,4) input_1']';
 [testPerformance,net,c] =Neural_net_image(input_2,sum_target,nhn)
 c_net1=c;
 net_1_live=net;
 %%
+
 clearvars -EXCEPT net_1_live c_net1 sum_target nhn total total_Gr input_1
  save net_1_live
  save c_net1
@@ -262,6 +233,7 @@ input_3=[total(:,1) total_Gr(:,1) total(:,2) total(:,3) total(:,4) total(:,5) in
 [testPerformance,net,c,tr] =Neural_net_image(input_3,sum_target,nhn); 
 net_2_live=net;
 c_net2=c;
+
 clearvars -EXCEPT net_2_live c_net2 sum_target nhn total total_Gr input_1
 save net_2_live
 save c_net2
@@ -271,8 +243,8 @@ input_4=[total(:,1) total_Gr(:,1) total(:,2) total(:,4)]';
 net_4_live=net;
 c_net4=c;
 clearvars -EXCEPT net_4_live c_net4 sum_target nhn total total_Gr input_1
-% save net_4_live
-% save c_net4
+save net_4_live
+save c_net4
 %%
 input_5=[total(:,1) total_Gr(:,1) total_Gr(:,2) total(:,2) total(:,4) total(:,5) input_1']';
 [testPerformance,net,c] =Neural_net_image(input_5,sum_target,nhn) 
@@ -282,16 +254,16 @@ clearvars -EXCEPT net_3_live c_net3 sum_target nhn total total_Gr input_1
  save net_3_live
 save c_net3
 
-%%
-% input_1=(((total_Gr(:,1))./(total(:,1).^2))+((total(:,2))).*total(:,4))';
+%% SVM
+input_1=(((total_Gr(:,1))./(total(:,1).^2))+((total(:,2))).*total(:,4))';
 % 
-% input_2=[total(:,1) total_Gr(:,1) total(:,2) total(:,4) input_1']';
+input_2=[total(:,1) total_Gr(:,1) total(:,2) total(:,4) input_1']';
 % 
-% input_class_1=[input_2' sum_target(1,:)'];
-% [trainedClassifier_1, validationAccuracy_1] = trainClassifier(input_class_1);
-% confusionmat
-% clearvars -EXCEPT sum_target total total_Gr input_1 trainedClassifier_1 validationAccuracy_1 input 1
-% % save trainedClassifier_1
+input_class_1=[input_2' sum_target(1,:)'];
+[trainedClassifier_1, validationAccuracy_1] = trainClassifier(input_class_1);
+confusionmat
+clearvars -EXCEPT sum_target total total_Gr input_1 trainedClassifier_1 validationAccuracy_1 input 1
+save trainedClassifier_1
 % %%
 % input_5=[total(:,1) total_Gr(:,1) total_Gr(:,2) total(:,2) total(:,4) total(:,5) input_1']';
 % input_class_2=[input_5' sum_target(1,:)'];
