@@ -19,17 +19,7 @@ if strcmp(k,'FR')
     for i=1:numFiles_feat
         [rec_area(i,:),newareaPolygon{:,:,i}] = Extract_features(image, FI{:,:,i});
     end 
-    
-%     figure;
-%     imshow(image);
-%     title('Detected Box');
-%     for i=1:numFiles_feat
-%         hold on;
-%         newobjectPolygon=newareaPolygon{:,:,i};
-%         line(newobjectPolygon(:, 1), newobjectPolygon(:, 2), 'Color', 'y');
-%     end
-
-    
+       
     
 elseif strcmp(k,'FL')
     % Read the reference image containing the object of interest.
