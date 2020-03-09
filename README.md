@@ -14,8 +14,6 @@ Project is created with:
 ## General info
 For the development of the algorithm, we designed in the laboratory a special base in order to better position the parts and decrease the influence of the environmental light. We also designed a lighting panel for their illumination which consists of LEDs placed uniformly, creating a diffused illumination of the parts. The picture of the examined part is captured by a phone camera.
 
-![Equipment] (/Images-Bach_thesis/Picture 1.png)
-
 This particular algorithm was created for this specific item. However with some changes it can be used for a variety of items. 
 There is 2 versions one for the final project and one live demo.
 Due to the low resolution of the camera, the size and the position of the defects, we chose to capture 6 pictures in total, 3 on each side
